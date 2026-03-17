@@ -11,10 +11,7 @@
 
         {% if user.is_authenticated %}
             <p>Vous êtes connecté en tant que {{ request.user }}.</p>
-            <p><a href="{% url 'home' %}">Accueil</a></p>
-            <p><a href="{% url 'follow_users' %}">Suivre des utilisateurs</a></p>
-            <p><a href="{% url 'password_change' %}">Changer le mot de passe</a></p>
-            <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+
         {% endif %}
     </body>
 </html>
