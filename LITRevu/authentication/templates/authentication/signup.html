@@ -9,4 +9,8 @@
         {% csrf_token %}
         <button type="submit" >S’inscrire</button>
     </form>
+
+    <form action="{% url 'login' %}">
+        <button type="submit">Retour</button>
+    </form>
 {% endblock content %}

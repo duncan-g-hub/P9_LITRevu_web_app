@@ -5,13 +5,21 @@
         <title>LITRevu</title>
     </head>
     <body>
-        <h1>LITRevu</h1>
+
+        <header>
+            <h1>LITRevu</h1>
+            {% if user.is_authenticated %}
+            <p>Bonjour {{ request.user }} !</p>
+            <a href="{% url 'home' %}">Flux</a>
+            <a href="{% url 'logout' %}">Sé déconnecter</a>
+            {% endif %}
+
+
+        </header>
+
         {% block content %}
         {% endblock content %}
 
-        {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que {{ request.user }}.</p>
 
-        {% endif %}
     </body>
 </html>

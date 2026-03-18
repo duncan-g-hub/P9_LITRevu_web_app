@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 
 from . import forms
@@ -16,7 +16,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                message = f'Bonjour, {user.username}! Vous êtes connecté.'
+                return redirect('home')
             else:
                 message = 'Identifiants invalides.'
     return render(
@@ -30,5 +30,10 @@ def signup_page(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect(settings.LOGIN_REDIRECT_URL)
+            return redirect('home')
     return render(request, 'authentication/signup.html', context={'form': form})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect(settings.LOGIN_REDIRECT_URL)

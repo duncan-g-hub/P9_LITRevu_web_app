@@ -121,3 +121,6 @@ STATIC_URL = 'static/'
 
 # utilisation de mon propre model user
 AUTH_USER_MODEL = 'authentication.User'
+
+
+LOGIN_REDIRECT_URL = "login"

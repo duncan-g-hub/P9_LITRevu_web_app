@@ -7,4 +7,10 @@ from django.db import models
 
 class User(AbstractUser):
     # modele user de base, on laisse la possiblité d'ajouter des champs supplémentaire avec AbstractUser)
-    pass
+
+    #gestion des abbonnements et abonnées
+    followers = models.ManyToManyField('self', symmetrical=False, verbose_name='followers')
+    follows = models.ManyToManyField('self', symmetrical=False, verbose_name='follows')
+
+
+
