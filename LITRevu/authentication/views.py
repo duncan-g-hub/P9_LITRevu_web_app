@@ -37,3 +37,5 @@ def signup_page(request):
 def logout_user(request):
     logout(request)
     return redirect(settings.LOGIN_REDIRECT_URL)
+
+

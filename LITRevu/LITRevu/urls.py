@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', authentication.views.login_page, name='login'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('logout/', authentication.views.logout_user, name='logout'),
+    path('follow/', review_app.views.follow_user, name='follow'),
 
     # path('', views.home, name='home'),
 ]
