@@ -73,17 +73,24 @@ def add_ticket(request):
 
 
 @login_required
-def edit_ticket(request, id):
+def edit_ticket(request, ticket_id):
     # if form is valid ; if request = post ; gestion auteur ; date
-
-    form = forms.TicketForm(request.POST)
-    context = {"form": form,
-               "id": id}
+    ticket = Ticket.objects.get(id=ticket_id)
+    form = forms.TicketForm(request.POST or None, request.FILES or None, instance=ticket)
+    context = {'ticket': ticket, 'form': form}
+    if request.method == 'POST':
+        if form.is_valid():
+            ticket.save()
+            return redirect('posts')
     return render(request, 'review_app/edit_ticket.html', {'context': context})
 
 @login_required
-def delete_ticket(request, id):
-    pass
+def delete_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('posts')
+    return render(request, 'review_app/delete_ticket.html', {'ticket': ticket})
 
 
 @login_required
@@ -94,17 +101,21 @@ def add_review(request):
 
 
 @login_required
-def edit_review(request, id):
+def edit_review(request, review_id):
     # if form is valid ; if request = post ; gestion auteur ; date ; ticket
-    form = forms.ReviewForm(request.POST)
-    context = {"form": form,
-               "id": id}
+    review = Review.objects.get(id=review_id)
+    form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
+    context = {'review': review, 'form': form}
     return render(request, 'review_app/edit_review.html', {'context': context})
 
 
 @login_required
-def delete_review(request, id):
-    pass
+def delete_review(request, review_id):
+    review = Review.objects.get(id=review_id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('posts')
+    return render(request, 'review_app/delete_review.html', {'review': review})
 
 
 

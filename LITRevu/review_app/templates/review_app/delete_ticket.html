@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Supprimer un ticket</h2>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>Etes-vous sûre de vouloir supprimer le ticket {{ ticket.title }} </p>
+        <button type="submit">Supprimer</button>
+    </form>
+
+    <form action="{% url 'posts' %}" >
+        <button type="submit">Retour</button>
+    </form>
+
+
+{% endblock content %}

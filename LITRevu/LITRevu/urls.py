@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 import authentication.views
 import review_app.views
@@ -39,3 +41,8 @@ urlpatterns = [
 
     path("posts/", review_app.views.posts, name='posts'),
 ]
+
+# Si on est dans notre environnement de developpement, les images seront stockées dans le répertoire MEDIA_ROOT
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
