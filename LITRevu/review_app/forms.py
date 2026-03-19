@@ -10,7 +10,7 @@ from review_app.models import Review, Ticket
 class TicketForm(forms.ModelForm):
     title = forms.CharField(label="Titre")
     description = forms.CharField(label="Description", widget=forms.Textarea)
-    image = forms.ImageField(label="Image")
+    image = forms.ImageField(label="Image", required=False)
 
     class Meta:
         model = Ticket

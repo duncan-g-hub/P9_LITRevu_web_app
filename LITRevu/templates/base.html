@@ -11,6 +11,7 @@
             {% if user.is_authenticated %}
             <p>Bonjour {{ request.user }} !</p>
             <a href="{% url 'home' %}">Flux</a>
+            <a href="{% url 'posts' %}">Posts</a>
             <a href="{% url 'follow' %}">Abonnements</a>
             <a href="{% url 'logout' %}">Sé déconnecter</a>
             {% endif %}

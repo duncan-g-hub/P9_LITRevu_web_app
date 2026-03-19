@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
 
-from .models import Ticket
+from .models import Ticket, Review
 
 User = get_user_model()
 
@@ -58,8 +58,18 @@ def follow_user(request):
 @login_required
 def add_ticket(request):
     # if form is valid ; if request = post ; gestion auteur ; date
-    form = forms.TicketForm(request.POST)
+    form = forms.TicketForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            ticket = form.save(commit=False) # objet Ticket créé mais pas sauvegardé
+            ticket.author = request.user
+            ticket.save()
+            return redirect('home')
     return render(request, 'review_app/add_ticket.html', {'form': form})
+
+
+
+
 
 
 @login_required
@@ -70,6 +80,10 @@ def edit_ticket(request, id):
     context = {"form": form,
                "id": id}
     return render(request, 'review_app/edit_ticket.html', {'context': context})
+
+@login_required
+def delete_ticket(request, id):
+    pass
 
 
 @login_required
@@ -86,3 +100,18 @@ def edit_review(request, id):
     context = {"form": form,
                "id": id}
     return render(request, 'review_app/edit_review.html', {'context': context})
+
+
+@login_required
+def delete_review(request, id):
+    pass
+
+
+
+
+@login_required
+def posts(request):
+    tickets = Ticket.objects.filter(author=request.user)
+    reviews = Review.objects.filter(author=request.user)
+    context = {'tickets': tickets, 'reviews': reviews}
+    return render(request, 'review_app/posts.html', {'context': context})

@@ -31,7 +31,11 @@ urlpatterns = [
 
     path("ticket/add/", review_app.views.add_ticket, name='add-ticket'),
     path("ticket/edit/<int:ticket_id>/", review_app.views.edit_ticket, name='edit-ticket'),
+    path("ticket/delete/<int:ticket_id>/", review_app.views.delete_ticket, name='delete-ticket'),
 
-path("review/add/", review_app.views.add_review, name='add-review'),
-path("review/edit/<int:review_id>/", review_app.views.edit_review, name='edit-review'),
+    path("review/add/", review_app.views.add_review, name='add-review'),
+    path("review/edit/<int:review_id>/", review_app.views.edit_review, name='edit-review'),
+    path("review/delete/<int:review_id>/", review_app.views.delete_review, name='delete-review'),
+
+    path("posts/", review_app.views.posts, name='posts'),
 ]

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Vos posts</h2>
+    {% if context.tickets %}
+        {% for ticket in context.tickets %}
+            <p>Vous avez publié un ticket</p>
+            <p>{{ ticket.time_created }}</p>
+            <p>{{ ticket.title }}</p>
+            <p>{{ ticket.description }}</p>
+            {% if ticket.image %}
+                <img src="{{ ticket.image.url }}" >
+            {% endif %}
+
+        <form action="{% url 'edit-ticket' ticket.id %}">
+            <button type="submit">Modifier</button>
+        </form>
+
+        <form action="{% url 'delete-ticket' ticket.id %}">
+            <button type="submit">Supprimer</button>
+        </form>
+        {% endfor %}
+    {% endif %}
+
+    {% if context.reviews %}
+        {% for review in context.reviews %}
+            <p>Vous avez publié une critique</p>
+            <p>{{ review.time_created }}</p>
+            <p>{{ review.headline }} - {{ review.rating }}</p>
+            <p>{{ review.body }}</p>
+
+            <p>Ticket - {{ review.ticket.author }}</p>
+            <p>{{ review.ticket.time_created }}</p>
+            <p>{{ review.ticket.description }}</p>
+            {% if review.ticket.image %}
+                <img src="{{ review.ticket.image.url }}" >
+            {% endif %}
+
+        <form action="{% url 'edit-review' review.id %}">
+            <button type="submit">Modifier</button>
+        </form>
+
+        <form action="{% url 'delete-review' review.id %}">
+            <button type="submit">Supprimer</button>
+        </form>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
