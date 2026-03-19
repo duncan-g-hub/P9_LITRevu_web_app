@@ -29,5 +29,9 @@ urlpatterns = [
     path('logout/', authentication.views.logout_user, name='logout'),
     path('follow/', review_app.views.follow_user, name='follow'),
 
-    # path('', views.home, name='home'),
+    path("ticket/add/", review_app.views.add_ticket, name='add-ticket'),
+    path("ticket/edit/<int:ticket_id>/", review_app.views.edit_ticket, name='edit-ticket'),
+
+path("review/add/", review_app.views.add_review, name='add-review'),
+path("review/edit/<int:review_id>/", review_app.views.edit_review, name='edit-review'),
 ]

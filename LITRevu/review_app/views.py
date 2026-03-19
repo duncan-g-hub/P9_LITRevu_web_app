@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
 
+from .models import Ticket
 
 User = get_user_model()
 
@@ -54,3 +55,34 @@ def follow_user(request):
 
 
 
+@login_required
+def add_ticket(request):
+    # if form is valid ; if request = post ; gestion auteur ; date
+    form = forms.TicketForm(request.POST)
+    return render(request, 'review_app/add_ticket.html', {'form': form})
+
+
+@login_required
+def edit_ticket(request, id):
+    # if form is valid ; if request = post ; gestion auteur ; date
+
+    form = forms.TicketForm(request.POST)
+    context = {"form": form,
+               "id": id}
+    return render(request, 'review_app/edit_ticket.html', {'context': context})
+
+
+@login_required
+def add_review(request):
+    # if form is valid ; if request = post ; gestion auteur ; date ; ticket
+    form = forms.ReviewForm(request.POST)
+    return render(request, 'review_app/add_review.html', {'form': form})
+
+
+@login_required
+def edit_review(request, id):
+    # if form is valid ; if request = post ; gestion auteur ; date ; ticket
+    form = forms.ReviewForm(request.POST)
+    context = {"form": form,
+               "id": id}
+    return render(request, 'review_app/edit_review.html', {'context': context})

@@ -3,5 +3,12 @@
 {% block content %}
 <h2>Feed</h2>
 
+<form action="{% url 'add-ticket' %}">
+    <button type="submit">Demander une critique</button>
+</form>
+
+<form action="{% url 'add-review' %}">
+    <button type="submit">Créer une critique</button>
+</form>
 
 {% endblock content %}
