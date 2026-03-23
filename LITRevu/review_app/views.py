@@ -9,11 +9,11 @@ from .models import Ticket, Review
 User = get_user_model()
 
 @login_required
-def home(request):
+def feed(request):
     #afficher le feed des reviews et demande de review
 
     #gestion du nombre de page
-    return render(request, 'review_app/home.html')
+    return render(request, 'review_app/feed.html')
 
 
 @login_required
@@ -57,7 +57,6 @@ def follow_user(request):
 
 @login_required
 def add_ticket(request):
-    # if form is valid ; if request = post ; gestion auteur ; date
     form = forms.TicketForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -70,11 +69,8 @@ def add_ticket(request):
 
 
 
-
-
 @login_required
 def edit_ticket(request, ticket_id):
-    # if form is valid ; if request = post ; gestion auteur ; date
     ticket = Ticket.objects.get(id=ticket_id)
     form = forms.TicketForm(request.POST or None, request.FILES or None, instance=ticket)
     context = {'ticket': ticket, 'form': form}
@@ -93,19 +89,54 @@ def delete_ticket(request, ticket_id):
     return render(request, 'review_app/delete_ticket.html', {'ticket': ticket})
 
 
+
 @login_required
-def add_review(request):
-    # if form is valid ; if request = post ; gestion auteur ; date ; ticket
-    form = forms.ReviewForm(request.POST)
-    return render(request, 'review_app/add_review.html', {'form': form})
+def add_review_and_ticket(request):
+    ticket_form = forms.TicketForm(request.POST or None, request.FILES or None)
+    review_form = forms.ReviewForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        if ticket_form.is_valid() and review_form.is_valid():
+            review = review_form.save(commit=False)  # objet Review créé mais pas sauvegardé
+            ticket = ticket_form.save(commit=False)  # objet Ticket créé mais pas sauvegardé
+
+            ticket.author = request.user
+            ticket.save()
+
+            review.author = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('home')
+
+    context = {'ticket_form': ticket_form, 'review_form': review_form}
+    return render(request, 'review_app/add_review_and_ticket.html', {'context': context})
+
+
+@login_required
+def add_review_from_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    review_form = forms.ReviewForm(request.POST or None, request.FILES or None)
+    context = {'ticket': ticket, 'review_form': review_form}
+    if request.method == 'POST':
+        if review_form.is_valid():
+            review = review_form.save(commit=False)  # objet Review créé mais pas sauvegardé
+
+            review.author = request.user
+            review.ticket = ticket
+            review.save()
+
+            return redirect('home')
+    return render(request, 'review_app/add_review.html', {'context': context})
 
 
 @login_required
 def edit_review(request, review_id):
-    # if form is valid ; if request = post ; gestion auteur ; date ; ticket
     review = Review.objects.get(id=review_id)
     form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
     context = {'review': review, 'form': form}
+    if request.method == 'POST':
+        if form.is_valid():
+            review.save()
+            return redirect('posts')
     return render(request, 'review_app/edit_review.html', {'context': context})
 
 
@@ -122,6 +153,7 @@ def delete_review(request, review_id):
 
 @login_required
 def posts(request):
+    #il faut faire un tri sur la date et afficher les ticket/review selon la date
     tickets = Ticket.objects.filter(author=request.user)
     reviews = Review.objects.filter(author=request.user)
     context = {'tickets': tickets, 'reviews': reviews}

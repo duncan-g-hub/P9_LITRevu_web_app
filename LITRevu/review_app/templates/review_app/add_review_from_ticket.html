@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Créer une critique</h2>
+
+<!-- gerer une condition dans le cas ou la critique est une réponse à un ticket ou non -->
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Livre / Article</h3>
+        {{ context.ticket_form.as_p }}
+        <h3>Critique</h3>
+        {{ context.review_form.as_p }}
+        <button type="submit">Envoyer</button>
+    </form>
+
+
+{% endblock content %}

@@ -25,7 +25,7 @@ import review_app.views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', review_app.views.home, name='home'),
+    path('', review_app.views.feed, name='feed'),
     path('login/', authentication.views.login_page, name='login'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('logout/', authentication.views.logout_user, name='logout'),
@@ -35,7 +35,8 @@ urlpatterns = [
     path("ticket/edit/<int:ticket_id>/", review_app.views.edit_ticket, name='edit-ticket'),
     path("ticket/delete/<int:ticket_id>/", review_app.views.delete_ticket, name='delete-ticket'),
 
-    path("review/add/", review_app.views.add_review, name='add-review'),
+    path("review/add/", review_app.views.add_review_and_ticket, name='add-review-and-ticket'),
+    path("review/add/<int:ticket_id>/", review_app.views.add_review_from_ticket, name='add-review-from-ticket'),
     path("review/edit/<int:review_id>/", review_app.views.edit_review, name='edit-review'),
     path("review/delete/<int:review_id>/", review_app.views.delete_review, name='delete-review'),
 
