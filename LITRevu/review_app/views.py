@@ -1,9 +1,10 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+
 
 from .models import Ticket, Review
 
@@ -91,18 +92,22 @@ def add_ticket(request):
 
 @login_required
 def edit_ticket(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if ticket.author != request.user:
+        return redirect('feed')
     form = forms.TicketForm(request.POST or None, request.FILES or None, instance=ticket)
     context = {'ticket': ticket, 'form': form}
     if request.method == 'POST':
         if form.is_valid():
-            ticket.save()
+            form.save()
             return redirect('posts')
     return render(request, 'review_app/edit_ticket.html', {'context': context})
 
 @login_required
 def delete_ticket(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if ticket.author != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         ticket.delete()
         return redirect('posts')
@@ -136,7 +141,7 @@ def add_review_and_ticket(request):
 
 @login_required
 def add_review_from_ticket(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)
     review_form = forms.ReviewForm(request.POST or None, request.FILES or None)
     context = {'ticket': ticket, 'review_form': review_form}
     if request.method == 'POST':
@@ -154,19 +159,23 @@ def add_review_from_ticket(request, ticket_id):
 
 @login_required
 def edit_review(request, review_id):
-    review = Review.objects.get(id=review_id)
+    review = get_object_or_404(Review,id=review_id)
+    if review.author != request.user:
+        return redirect('feed')
     form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
     context = {'review': review, 'form': form}
     if request.method == 'POST':
         if form.is_valid():
-            review.save()
+            form.save()
             return redirect('posts')
     return render(request, 'review_app/edit_review.html', {'context': context})
 
 
 @login_required
 def delete_review(request, review_id):
-    review = Review.objects.get(id=review_id)
+    review = get_object_or_404(Review,id=review_id)
+    if review.author != request.user:
+        return redirect('feed')
     if request.method == 'POST':
         review.delete()
         return redirect('posts')
