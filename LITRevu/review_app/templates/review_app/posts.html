@@ -8,7 +8,7 @@
         <br>
             {% if element.type == "TICKET" %}
 
-                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element %}
+                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element in_review=False %}
 
                 <form action="{% url 'edit-ticket' element.id %}">
                     <button type="submit">Modifier</button>
@@ -23,7 +23,7 @@
 
                 {% include 'review_app/partials/review_snippet.html'  with review=element %}
 
-                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket %}
+                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket in_review=True  %}
 
                 <form action="{% url 'edit-review' element.id %}">
                     <button type="submit">Modifier</button>

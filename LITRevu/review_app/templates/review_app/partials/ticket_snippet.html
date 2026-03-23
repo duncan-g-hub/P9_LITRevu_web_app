@@ -1,6 +1,6 @@
 
 
-{% if ticket.closed == True %}
+{% if in_review == True %}
     <p>Ticket - {{ ticket.author }}</p>
 {% else %}
     {% if ticket.author == request.user %}
