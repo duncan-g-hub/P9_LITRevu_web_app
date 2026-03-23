@@ -4,23 +4,19 @@
 
     <h2>Créer une critique</h2>
 
-<!-- gerer une condition dans le cas ou la critique est une réponse à un ticket ou non -->
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3>Vous êtes en train de poster en réponse à </h3>
-        <p>{{ context.ticket.time_created }}</p>
         <p>{{ context.ticket.author }} a demandé une critique </p>
-        <p>{{ context.ticket.title }}</p>
-        <p>{{ context.ticket.description }}</p>
-        {% if context.ticket.image %}
-            <img src="{{ context.ticket.image.url }}" >
-        {% endif %}
+        {% include 'review_app/partials/ticket_snippet.html'  with ticket=context.ticket %}
 
         <h3>Critique</h3>
         {{ context.review_form.as_p }}
         <button type="submit">Envoyer</button>
     </form>
 
-
+    <form action="{% url 'feed' %}" >
+        <button type="submit">Retour</button>
+    </form>
 {% endblock content %}

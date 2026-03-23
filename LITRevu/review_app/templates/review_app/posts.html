@@ -8,12 +8,7 @@
         <br>
             {% if element.type == "TICKET" %}
                 <p>Vous avez publié un ticket</p>
-                <p>{{ element.time_created }}</p>
-                <p>{{ element.title }}</p>
-                <p>{{ element.description }}</p>
-                {% if element.image %}
-                    <img src="{{ element.image.url }}" >
-                {% endif %}
+                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element %}
 
                 <form action="{% url 'edit-ticket' element.id %}">
                     <button type="submit">Modifier</button>
@@ -26,16 +21,10 @@
 
             {% elif element.type == "REVIEW" %}
                 <p>Vous avez publié une critique</p>
-                <p>{{ element.time_created }}</p>
-                <p>{{ element.headline }} - {{ element.rating }} / 5</p>
-                <p>{{ element.body }}</p>
+                {% include 'review_app/partials/review_snippet.html'  with review=element.ticket %}
 
                 <p>Ticket - {{ element.ticket.author }}</p>
-                <p>{{ element.ticket.time_created }}</p>
-                <p>{{ element.ticket.description }}</p>
-                {% if element.ticket.image %}
-                    <img src="{{ element.ticket.image.url }}" >
-                {% endif %}
+                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket %}
 
                 <form action="{% url 'edit-review' element.id %}">
                     <button type="submit">Modifier</button>
