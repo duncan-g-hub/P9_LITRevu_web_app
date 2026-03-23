@@ -10,10 +10,27 @@ User = get_user_model()
 
 @login_required
 def feed(request):
-    #afficher le feed des reviews et demande de review
+    #afficher le feed des reviews et tickets des utilisateurs suivis
+    follows = request.user.follows.all()
+    tickets = []
+    reviews = []
+    for follow in follows:
+        tickets.extend(Ticket.objects.filter(author=follow))
+        reviews.extend(Review.objects.filter(author=follow))
+
+    items = []
+    for ticket in tickets:
+        ticket.type = 'TICKET'
+        items.append(ticket)
+    for review in reviews:
+        review.type = 'REVIEW'
+        items.append(review)
+
+    context = sorted(items, key=lambda x: x.time_created, reverse=True)
+
 
     #gestion du nombre de page
-    return render(request, 'review_app/feed.html')
+    return render(request, 'review_app/feed.html', {'context': context})
 
 
 @login_required
@@ -63,7 +80,7 @@ def add_ticket(request):
             ticket = form.save(commit=False) # objet Ticket créé mais pas sauvegardé
             ticket.author = request.user
             ticket.save()
-            return redirect('home')
+            return redirect('feed')
     return render(request, 'review_app/add_ticket.html', {'form': form})
 
 
@@ -105,7 +122,7 @@ def add_review_and_ticket(request):
             review.author = request.user
             review.ticket = ticket
             review.save()
-            return redirect('home')
+            return redirect('feed')
 
     context = {'ticket_form': ticket_form, 'review_form': review_form}
     return render(request, 'review_app/add_review_and_ticket.html', {'context': context})
@@ -124,8 +141,8 @@ def add_review_from_ticket(request, ticket_id):
             review.ticket = ticket
             review.save()
 
-            return redirect('home')
-    return render(request, 'review_app/add_review.html', {'context': context})
+            return redirect('feed')
+    return render(request, 'review_app/add_review_from_ticket.html', {'context': context})
 
 
 @login_required
@@ -153,7 +170,6 @@ def delete_review(request, review_id):
 
 @login_required
 def posts(request):
-    #il faut faire un tri sur la date et afficher les ticket/review selon la date
     tickets = Ticket.objects.filter(author=request.user)
     reviews = Review.objects.filter(author=request.user)
 

@@ -11,4 +11,45 @@
     <button type="submit">Créer une critique</button>
 </form>
 
+
+
+        {% for element in context %}
+        <br>
+            {% if element.type == "TICKET" %}
+
+                <p>{{ element.author }} a demandé une critique</p>
+                <p>{{ element.time_created }}</p>
+                <p>{{ element.title }}</p>
+                <p>{{ element.description }}</p>
+                {% if element.image %}
+                    <img src="{{ element.image.url }}" >
+                {% endif %}
+
+                <form action="{% url 'add-review-from-ticket' element.id %}">
+                    <button type="submit">Créer une ciritique</button>
+                </form>
+
+
+
+
+            {% elif element.type == "REVIEW" %}
+
+                <p>{{ element.author }} a publié une critique</p>
+                <p>{{ element.time_created }}</p>
+                <p>{{ element.headline }} - {{ element.rating }} / 5</p>
+                <p>{{ element.body }}</p>
+
+                <p>Ticket - {{ element.ticket.author }}</p>
+                <p>{{ element.ticket.time_created }}</p>
+                <p>{{ element.ticket.description }}</p>
+                {% if element.ticket.image %}
+                    <img src="{{ element.ticket.image.url }}" >
+                {% endif %}
+
+
+            {% endif %}
+        {% endfor %}
+
+
+
 {% endblock content %}

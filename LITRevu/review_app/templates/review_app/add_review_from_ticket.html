@@ -8,8 +8,15 @@
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <h3>Livre / Article</h3>
-        {{ context.ticket_form.as_p }}
+        <h3>Vous êtes en train de poster en réponse à </h3>
+        <p>{{ context.ticket.time_created }}</p>
+        <p>{{ context.ticket.author }} a demandé une critique </p>
+        <p>{{ context.ticket.title }}</p>
+        <p>{{ context.ticket.description }}</p>
+        {% if context.ticket.image %}
+            <img src="{{ context.ticket.image.url }}" >
+        {% endif %}
+
         <h3>Critique</h3>
         {{ context.review_form.as_p }}
         <button type="submit">Envoyer</button>

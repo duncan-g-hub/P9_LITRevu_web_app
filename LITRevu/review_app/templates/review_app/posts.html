@@ -5,6 +5,7 @@
     <h2>Vos posts</h2>
 
         {% for element in context %}
+        <br>
             {% if element.type == "TICKET" %}
                 <p>Vous avez publié un ticket</p>
                 <p>{{ element.time_created }}</p>
@@ -26,7 +27,7 @@
             {% elif element.type == "REVIEW" %}
                 <p>Vous avez publié une critique</p>
                 <p>{{ element.time_created }}</p>
-                <p>{{ element.headline }} - {{ element.rating }}</p>
+                <p>{{ element.headline }} - {{ element.rating }} / 5</p>
                 <p>{{ element.body }}</p>
 
                 <p>Ticket - {{ element.ticket.author }}</p>
