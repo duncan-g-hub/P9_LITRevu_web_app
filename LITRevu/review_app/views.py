@@ -12,11 +12,14 @@ User = get_user_model()
 def feed(request):
     #afficher le feed des reviews et tickets des utilisateurs suivis
     follows = request.user.follows.all()
-    tickets = []
-    reviews = []
+
+    followed_users = []
     for follow in follows:
-        tickets.extend(Ticket.objects.filter(author=follow))
-        reviews.extend(Review.objects.filter(author=follow))
+        followed_users.append(follow)
+    followed_users.append(request.user)
+
+    tickets = Ticket.objects.filter(author__in=followed_users)
+    reviews = Review.objects.filter(author__in=followed_users)
 
     items = []
     for ticket in tickets:

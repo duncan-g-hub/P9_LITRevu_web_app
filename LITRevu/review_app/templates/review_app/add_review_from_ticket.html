@@ -8,7 +8,7 @@
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3>Vous êtes en train de poster en réponse à </h3>
-        <p>{{ context.ticket.author }} a demandé une critique </p>
+
         {% include 'review_app/partials/ticket_snippet.html'  with ticket=context.ticket %}
 
         <h3>Critique</h3>

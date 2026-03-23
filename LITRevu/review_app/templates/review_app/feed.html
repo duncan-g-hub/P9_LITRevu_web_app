@@ -17,27 +17,19 @@
         <br>
             {% if element.type == "TICKET" %}
 
-                <p>{{ element.author }} a demandé une critique</p>
                 {% include 'review_app/partials/ticket_snippet.html'  with ticket=element %}
 
                 {% if element.closed == False %}
-                <form action="{% url 'add-review-from-ticket' element.id %}">
-                    <button type="submit">Créer une ciritique</button>
-                </form>
+                    <form action="{% url 'add-review-from-ticket' element.id %}">
+                        <button type="submit">Créer une ciritique</button>
+                    </form>
                 {% endif %}
-
-
-
 
             {% elif element.type == "REVIEW" %}
 
-                <p>{{ element.author }} a publié une critique</p>
                 {% include 'review_app/partials/review_snippet.html'  with review=element %}
 
-                <p>Ticket - {{ element.ticket.author }}</p>
                 {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket %}
-
-
 
             {% endif %}
         {% endfor %}

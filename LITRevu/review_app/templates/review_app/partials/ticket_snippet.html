@@ -1,3 +1,19 @@
+
+
+{% if ticket.closed == True %}
+    <p>Ticket - {{ ticket.author }}</p>
+{% else %}
+    {% if ticket.author == request.user %}
+        <p>Vous avez demandé une critique</p>
+    {% else %}
+        <p>{{ ticket.author }} a demandé une critique</p>
+    {% endif %}
+{% endif %}
+
+
+
+
+
 <p>{{ ticket.time_created }}</p>
 <p>{{ ticket.title }}</p>
 <p>{{ ticket.description }}</p>

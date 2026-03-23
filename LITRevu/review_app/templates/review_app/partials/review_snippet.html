@@ -1,3 +1,13 @@
+
+
+{% if review.author == request.user %}
+    <p>Vous avez publié une critique</p>
+{% else %}
+    <p>{{ review.author }} a publié une critique</p>
+{% endif %}
+
+
 <p>{{ review.time_created }}</p>
 <p>{{ review.headline }} - {{ review.rating }} / 5</p>
 <p>{{ review.body }}</p>
+
