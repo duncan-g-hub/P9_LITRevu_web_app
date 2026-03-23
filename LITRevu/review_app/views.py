@@ -156,5 +156,14 @@ def posts(request):
     #il faut faire un tri sur la date et afficher les ticket/review selon la date
     tickets = Ticket.objects.filter(author=request.user)
     reviews = Review.objects.filter(author=request.user)
-    context = {'tickets': tickets, 'reviews': reviews}
+
+    items = []
+    for ticket in tickets:
+        ticket.type = 'TICKET'
+        items.append(ticket)
+    for review in reviews:
+        review.type = 'REVIEW'
+        items.append(review)
+
+    context = sorted(items, key=lambda x: x.time_created, reverse=True)
     return render(request, 'review_app/posts.html', {'context': context})

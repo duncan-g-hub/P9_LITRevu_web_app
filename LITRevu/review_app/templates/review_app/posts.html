@@ -4,48 +4,46 @@
 
     <h2>Vos posts</h2>
 
+        {% for element in context %}
+            {% if element.type == "TICKET" %}
+                <p>Vous avez publié un ticket</p>
+                <p>{{ element.time_created }}</p>
+                <p>{{ element.title }}</p>
+                <p>{{ element.description }}</p>
+                {% if element.image %}
+                    <img src="{{ element.image.url }}" >
+                {% endif %}
 
-    {% if context.tickets %}
-        {% for ticket in context.tickets %}
-            <p>Vous avez publié un ticket</p>
-            <p>{{ ticket.time_created }}</p>
-            <p>{{ ticket.title }}</p>
-            <p>{{ ticket.description }}</p>
-            {% if ticket.image %}
-                <img src="{{ ticket.image.url }}" >
+                <form action="{% url 'edit-ticket' element.id %}">
+                    <button type="submit">Modifier</button>
+                </form>
+
+                <form action="{% url 'delete-ticket' element.id %}">
+                    <button type="submit">Supprimer</button>
+                </form>
+
+
+            {% elif element.type == "REVIEW" %}
+                <p>Vous avez publié une critique</p>
+                <p>{{ element.time_created }}</p>
+                <p>{{ element.headline }} - {{ element.rating }}</p>
+                <p>{{ element.body }}</p>
+
+                <p>Ticket - {{ element.ticket.author }}</p>
+                <p>{{ element.ticket.time_created }}</p>
+                <p>{{ element.ticket.description }}</p>
+                {% if element.ticket.image %}
+                    <img src="{{ element.ticket.image.url }}" >
+                {% endif %}
+
+                <form action="{% url 'edit-review' element.id %}">
+                    <button type="submit">Modifier</button>
+                </form>
+
+                <form action="{% url 'delete-review' element.id %}">
+                    <button type="submit">Supprimer</button>
+                </form>
             {% endif %}
-
-        <form action="{% url 'edit-ticket' ticket.id %}">
-            <button type="submit">Modifier</button>
-        </form>
-
-        <form action="{% url 'delete-ticket' ticket.id %}">
-            <button type="submit">Supprimer</button>
-        </form>
         {% endfor %}
-    {% endif %}
 
-    {% if context.reviews %}
-        {% for review in context.reviews %}
-            <p>Vous avez publié une critique</p>
-            <p>{{ review.time_created }}</p>
-            <p>{{ review.headline }} - {{ review.rating }}</p>
-            <p>{{ review.body }}</p>
-
-            <p>Ticket - {{ review.ticket.author }}</p>
-            <p>{{ review.ticket.time_created }}</p>
-            <p>{{ review.ticket.description }}</p>
-            {% if review.ticket.image %}
-                <img src="{{ review.ticket.image.url }}" >
-            {% endif %}
-
-        <form action="{% url 'edit-review' review.id %}">
-            <button type="submit">Modifier</button>
-        </form>
-
-        <form action="{% url 'delete-review' review.id %}">
-            <button type="submit">Supprimer</button>
-        </form>
-        {% endfor %}
-    {% endif %}
 {% endblock content %}
