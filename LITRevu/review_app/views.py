@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from .models import Ticket, Review
 
@@ -10,7 +11,6 @@ User = get_user_model()
 
 @login_required
 def feed(request):
-    #afficher le feed des reviews et tickets des utilisateurs suivis
     follows = request.user.follows.all()
 
     followed_users = []
@@ -19,7 +19,7 @@ def feed(request):
     followed_users.append(request.user)
 
     tickets = Ticket.objects.filter(author__in=followed_users)
-    reviews = Review.objects.filter(author__in=followed_users)
+    reviews = Review.objects.filter(Q(author__in=followed_users) | Q(ticket__author = request.user))
 
     items = []
     for ticket in tickets:
