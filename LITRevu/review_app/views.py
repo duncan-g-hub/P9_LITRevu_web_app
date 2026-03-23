@@ -122,6 +122,9 @@ def add_review_and_ticket(request):
             review.author = request.user
             review.ticket = ticket
             review.save()
+
+            ticket.closed = True
+            ticket.save()
             return redirect('feed')
 
     context = {'ticket_form': ticket_form, 'review_form': review_form}
@@ -140,7 +143,8 @@ def add_review_from_ticket(request, ticket_id):
             review.author = request.user
             review.ticket = ticket
             review.save()
-
+            ticket.closed = True
+            ticket.save()
             return redirect('feed')
     return render(request, 'review_app/add_review_from_ticket.html', {'context': context})
 

@@ -10,7 +10,7 @@ class Ticket(models.Model):
     image = models.ImageField(upload_to='images/', blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+    closed = models.BooleanField(default=False, blank=True)
 
 
 class Review(models.Model):

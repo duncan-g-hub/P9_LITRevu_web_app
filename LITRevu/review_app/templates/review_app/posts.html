@@ -21,7 +21,7 @@
 
             {% elif element.type == "REVIEW" %}
                 <p>Vous avez publié une critique</p>
-                {% include 'review_app/partials/review_snippet.html'  with review=element.ticket %}
+                {% include 'review_app/partials/review_snippet.html'  with review=element %}
 
                 <p>Ticket - {{ element.ticket.author }}</p>
                 {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket %}
