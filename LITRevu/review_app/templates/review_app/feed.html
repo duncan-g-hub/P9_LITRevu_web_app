@@ -13,7 +13,7 @@
 
 
 
-        {% for element in context %}
+        {% for element in page_obj %}
         <br>
             {% if element.type == "TICKET" %}
 
@@ -34,6 +34,7 @@
             {% endif %}
         {% endfor %}
 
-
+    <br><br>
+    {% include 'review_app/partials/page_navigator.html' %}
 
 {% endblock content %}

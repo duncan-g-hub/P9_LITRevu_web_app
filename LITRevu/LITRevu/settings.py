@@ -123,8 +123,8 @@ STATIC_URL = 'static/'
 AUTH_USER_MODEL = 'authentication.User'
 
 
+LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "login"
-
 
 # gestion du répértoire des images
 MEDIA_URL = '/media/'

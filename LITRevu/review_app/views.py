@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 from .models import Ticket, Review
@@ -32,9 +33,13 @@ def feed(request):
 
     context = sorted(items, key=lambda x: x.time_created, reverse=True)
 
-
     #gestion du nombre de page
-    return render(request, 'review_app/feed.html', {'context': context})
+    paginator = Paginator(context, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'review_app/feed.html', {'page_obj': page_obj})
+
 
 
 @login_required
@@ -198,4 +203,9 @@ def posts(request):
         items.append(review)
 
     context = sorted(items, key=lambda x: x.time_created, reverse=True)
-    return render(request, 'review_app/posts.html', {'context': context})
+
+    paginator = Paginator(context, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'review_app/posts.html', {'page_obj': page_obj})
