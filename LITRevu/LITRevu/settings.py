@@ -118,6 +118,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # utilisation de mon propre model user
 AUTH_USER_MODEL = 'authentication.User'
