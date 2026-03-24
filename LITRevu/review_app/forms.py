@@ -1,11 +1,10 @@
-from django.contrib.auth import get_user_model
 from django import forms
 
 
 from review_app.models import Review, Ticket
 
 
-# On crée les formulaires à partir des modele
+# On crée les formulaires à partir des modeles
 
 class TicketForm(forms.ModelForm):
     title = forms.CharField(label="Titre")

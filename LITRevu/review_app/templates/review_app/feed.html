@@ -14,27 +14,28 @@
 
 
         {% for element in page_obj %}
-        <br>
+
             {% if element.type == "TICKET" %}
+                <div class="post">
+                    {% include 'review_app/partials/ticket_snippet.html'  with ticket=element in_review=False %}
 
-                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element in_review=False %}
-
-                {% if element.closed == False %}
-                    <form action="{% url 'add-review-from-ticket' element.id %}">
-                        <button type="submit">Créer une ciritique</button>
-                    </form>
-                {% endif %}
-
+                    {% if element.closed == False %}
+                        <form action="{% url 'add-review-from-ticket' element.id %}">
+                            <button type="submit">Créer une ciritique</button>
+                        </form>
+                    {% endif %}
+                </div>
             {% elif element.type == "REVIEW" %}
-
+                <div class="post">
                 {% include 'review_app/partials/review_snippet.html'  with review=element %}
-
-                {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket in_review=True %}
-
+                    <div class="ticket_in_review">
+                        {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket in_review=True %}
+                    </div>
+                </div>
             {% endif %}
         {% endfor %}
 
-    <br><br>
+
     {% include 'review_app/partials/page_navigator.html' %}
 
 {% endblock content %}
