@@ -1,1 +1,45 @@
-* {background-color: red;}
+@import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Arimo:wght@400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&family=Quintessential&display=swap');
+
+
+body {
+    font-family: "Lato";
+    margin: 40px;
+}
+
+header {
+    display: flex;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-self: flex-end;
+    align-items: center;
+    text-align: center;
+}
+
+nav a {
+    margin: 10px;
+    font-size: 12px;
+}
+
+h1 {
+    margin: auto;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+button {}
+
+a {}
+
+p {
+    font-size: 16px;
+}
+
+form {}
