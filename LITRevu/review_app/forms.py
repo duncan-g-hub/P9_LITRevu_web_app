@@ -11,7 +11,6 @@ class TicketForm(forms.ModelForm):
     description = forms.CharField(label="Description", widget=forms.Textarea)
     image = forms.ImageField(label="Image", required=False)
 
-
     class Meta:
         model = Ticket
         fields = ("title", "description", "image")
@@ -25,8 +24,6 @@ class ReviewForm(forms.ModelForm):
         widget=forms.RadioSelect,
         label = "Note")
     body = forms.CharField(label="Commentaire", widget=forms.Textarea)
-
-
 
     class Meta:
         model = Review

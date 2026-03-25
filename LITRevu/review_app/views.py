@@ -45,39 +45,43 @@ def feed(request):
 @login_required
 def follow_user(request):
     message = ""
-
     if request.method == 'POST':
         username = request.POST.get('username')
-        action = request.POST.get('action')
         # on vérifie que l'utilisateur existe :
         try :
             target_user = User.objects.get(username=username)
         except User.DoesNotExist:
             message = f"L'utilisateur '{username}' n'existe pas."
         else:
-            # arreter de suivre
-            if action == "unfollow":
-                request.user.follows.remove(target_user)
-                message = f"Vous ne suivez plus {username}."
-
             # Empêcher de se suivre soi-même
-            elif target_user == request.user:
+            if target_user == request.user:
                 message = "Vous ne pouvez pas vous suivre vous-même."
-
             # Vérifier si déjà suivi
             elif request.user.follows.filter(id=target_user.id).exists():
                 message = f"Vous suivez déjà {username}."
-
             else:
                 request.user.follows.add(target_user)
                 message = f"{username} a été ajouté à vos abonnements."
-
     context = {
         'message': message,
         'follows': request.user.follows.all(),  # mes abonnements
         'followers': request.user.followers.all(),  # mes abonnés
     }
     return render(request, 'review_app/follow.html', {'context': context})
+
+
+def unfollow_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        try:
+            target_user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            pass
+        else:
+            # arreter de suivre en controllant si il y a bien un suivi
+            if request.user.follows.filter(id=target_user.id).exists():
+                request.user.follows.remove(target_user)
+    return redirect('follow')
 
 
 
@@ -91,8 +95,6 @@ def add_ticket(request):
             ticket.save()
             return redirect('feed')
     return render(request, 'review_app/add_ticket.html', {'form': form})
-
-
 
 
 @login_required
@@ -119,6 +121,7 @@ def delete_ticket(request, ticket_id):
     return render(request, 'review_app/delete_ticket.html', {'ticket': ticket})
 
 
+# gérer fonction pour add ticket pour eviter de répeter sous les if dans la gestion des reviews (garder une optique pour la mise à jour)
 
 @login_required
 def add_review_and_ticket(request):
@@ -130,14 +133,13 @@ def add_review_and_ticket(request):
             ticket = ticket_form.save(commit=False)  # objet Ticket créé mais pas sauvegardé
 
             ticket.author = request.user
+            ticket.closed = True
             ticket.save()
 
             review.author = request.user
             review.ticket = ticket
             review.save()
 
-            ticket.closed = True
-            ticket.save()
             return redirect('feed')
 
     context = {'ticket_form': ticket_form, 'review_form': review_form}
@@ -153,11 +155,13 @@ def add_review_from_ticket(request, ticket_id):
         if review_form.is_valid():
             review = review_form.save(commit=False)  # objet Review créé mais pas sauvegardé
 
+            ticket.closed = True
+            ticket.save()
+
             review.author = request.user
             review.ticket = ticket
             review.save()
-            ticket.closed = True
-            ticket.save()
+
             return redirect('feed')
     return render(request, 'review_app/add_review_from_ticket.html', {'context': context})
 

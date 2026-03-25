@@ -30,6 +30,7 @@ urlpatterns = [
     path('signup/', authentication.views.signup_page, name='signup'),
     path('logout/', authentication.views.logout_user, name='logout'),
     path('follow/', review_app.views.follow_user, name='follow'),
+    path('unfollow/', review_app.views.unfollow_user, name='unfollow'),
 
     path("ticket/add/", review_app.views.add_ticket, name='add-ticket'),
     path("ticket/edit/<int:ticket_id>/", review_app.views.edit_ticket, name='edit-ticket'),
