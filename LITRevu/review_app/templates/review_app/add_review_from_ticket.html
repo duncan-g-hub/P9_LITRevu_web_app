@@ -5,18 +5,18 @@
     <h2>Créer une critique</h2>
 
 
-    <form action="" method="post" enctype="multipart/form-data">
+    <form class="post_form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3>Vous êtes en train de poster en réponse à </h3>
-
-        {% include 'review_app/partials/ticket_snippet.html'  with ticket=context.ticket %}
-
+        <div class="post">
+            {% include 'review_app/partials/ticket_snippet.html'  with ticket=context.ticket %}
+        </div>
         <h3>Critique</h3>
         {{ context.review_form.as_p }}
-        <button type="submit">Envoyer</button>
+        <button class="action_button" type="submit">Envoyer</button>
     </form>
 
     <form action="{% url 'feed' %}" >
-        <button type="submit">Retour</button>
+        <button class="action_button" type="submit">Retour</button>
     </form>
 {% endblock content %}

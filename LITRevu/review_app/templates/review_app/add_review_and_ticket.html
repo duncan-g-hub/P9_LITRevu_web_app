@@ -6,17 +6,17 @@
 
 <!-- gerer une condition dans le cas ou la critique est une réponse à un ticket ou non -->
 
-    <form action="" method="post" enctype="multipart/form-data">
+    <form class="post_form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3>Livre / Article</h3>
         {{ context.ticket_form.as_p }}
         <h3>Critique</h3>
         {{ context.review_form.as_p }}
-        <button type="submit">Envoyer</button>
+        <button class="action_button" type="submit">Envoyer</button>
     </form>
 
     <form action="{% url 'feed' %}" >
-        <button type="submit">Retour</button>
+        <button class="action_button" type="submit">Retour</button>
     </form>
 
 

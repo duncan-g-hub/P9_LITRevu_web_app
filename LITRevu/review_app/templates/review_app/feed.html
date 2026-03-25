@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Flux</h2>
+    <h2>Flux</h2>
 
-<form action="{% url 'add-ticket' %}">
-    <button type="submit">Demander une critique</button>
-</form>
+    <div class="feed_feature">
+        <form action="{% url 'add-ticket' %}">
+            <button type="submit">Demander une critique</button>
+        </form>
 
-<form action="{% url 'add-review-and-ticket' %}">
-    <button type="submit">Créer une critique</button>
-</form>
-
+        <form action="{% url 'add-review-and-ticket' %}">
+            <button type="submit">Créer une critique</button>
+        </form>
+    </div>
 
 
         {% for element in page_obj %}
@@ -20,9 +21,11 @@
                     {% include 'review_app/partials/ticket_snippet.html'  with ticket=element in_review=False %}
 
                     {% if element.closed == False %}
-                        <form action="{% url 'add-review-from-ticket' element.id %}">
-                            <button type="submit">Créer une ciritique</button>
-                        </form>
+                        <div class="post_feature">
+                            <form action="{% url 'add-review-from-ticket' element.id %}">
+                                <button type="submit">Créer une critique</button>
+                            </form>
+                        </div>
                     {% endif %}
                 </div>
             {% elif element.type == "REVIEW" %}

@@ -10,13 +10,15 @@
                 <div class="post">
                     {% include 'review_app/partials/ticket_snippet.html'  with ticket=element in_review=False %}
 
-                    <form action="{% url 'edit-ticket' element.id %}">
-                        <button type="submit">Modifier</button>
-                    </form>
+                    <div class="post_feature">
+                        <form action="{% url 'edit-ticket' element.id %}">
+                            <button type="submit">Modifier</button>
+                        </form>
 
-                    <form action="{% url 'delete-ticket' element.id %}">
-                        <button type="submit">Supprimer</button>
-                    </form>
+                        <form action="{% url 'delete-ticket' element.id %}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
                 </div>
 
             {% elif element.type == "REVIEW" %}
@@ -25,13 +27,17 @@
                     <div class="ticket_in_review">
                         {% include 'review_app/partials/ticket_snippet.html'  with ticket=element.ticket in_review=True  %}
                     </div>
-                    <form action="{% url 'edit-review' element.id %}">
-                        <button type="submit">Modifier</button>
-                    </form>
 
-                    <form action="{% url 'delete-review' element.id %}">
-                        <button type="submit">Supprimer</button>
-                    </form>
+                    <div class="post_feature">
+                        <form action="{% url 'edit-review' element.id %}">
+                            <button type="submit">Modifier</button>
+                        </form>
+
+                        <form action="{% url 'delete-review' element.id %}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+
                 </div>
             {% endif %}
         {% endfor %}

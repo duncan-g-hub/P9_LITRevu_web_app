@@ -4,13 +4,13 @@
 
     <h2>Modifier une critique</h2>
 
-    <form action="" method="post">
+    <form class="post_form" action="" method="post">
         {% csrf_token %}
         {{ context.form.as_p }}
-        <button type="submit">Envoyer</button>
+        <button class="action_button" type="submit">Envoyer</button>
     </form>
 
     <form action="{% url 'posts' %}" >
-        <button type="submit">Retour</button>
+        <button class="action_button" type="submit">Retour</button>
     </form>
 {% endblock content %}

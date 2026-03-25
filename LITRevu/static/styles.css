@@ -22,7 +22,7 @@ nav {
 
 nav a {
     margin: 10px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 h1 {
@@ -32,7 +32,7 @@ h1 {
 }
 
 h2 {
-    margin: 20px;
+    margin: 30px 20px 20px 20px;
     font-size: 24px;
     text-align: center;
     font-weight: 700;
@@ -72,16 +72,109 @@ img {
 .title {
     font-size: 18px;
     font-weight: 600;
-
 }
 
 button {
-
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 button:hover{
+    background-color: #d3dded;
+    cursor: pointer;
+}
 
+.post_feature {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.feed_feature {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+}
+
+
+.feed_feature button {
+    padding: 10px 80px;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.row input{
+    font-size: 16px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;  
+}
+
+.username {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 16x;
+    font-weight: 500;
+    flex: 1;
 }
 
 
 
+
+.post_form p {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    
+}
+
+.post_form label {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.post_form input, .post_form textarea {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+#id_image {
+    border: none;
+    border-radius: 0;
+    margin: 10px 0;
+    padding: 0;
+}
+
+
+.action_button {
+    display: flex;
+    justify-self: flex-end;
+}
+
+#id_rating {
+    display: flex;
+}
+
+#id_rating div {
+    margin: 0 30px;
+}
+
+#id_rating input {
+    margin: 0 10px;
+}

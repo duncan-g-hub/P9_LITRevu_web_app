@@ -6,12 +6,12 @@
 
     <form action="" method="post">
         {% csrf_token %}
-        <p>Etes-vous sûre de vouloir supprimer la critique {{ review.headline }} </p>
-        <button type="submit">Supprimer</button>
+        <p>Etes-vous sûre de vouloir supprimer la critique '{{ review.headline }}' ?</p>
+        <button class="action_button" type="submit">Supprimer</button>
     </form>
 
     <form action="{% url 'posts' %}" >
-        <button type="submit">Retour</button>
+        <button class="action_button" type="submit">Retour</button>
     </form>
 
 
