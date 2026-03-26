@@ -6,13 +6,48 @@
 
     <form class="post_form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ context.form.as_p }}
-        <button class="action_button" type="submit">Envoyer</button>
+        <p>
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </p>
+
+        <p>
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+        </p>
+
+        <p class="image_field">
+            <label>Image</label>
+            <div class="image_current">
+                <span>Actuellement :
+                {% if form.instance.image %}
+                    <a href="{{ form.instance.image.url }}">
+                        {{ form.instance.image.name }}
+                    </a>
+                {% endif %}
+                </span>
+                <label>
+                    <input type="checkbox" name="image-clear" id="image-clear_id">
+                    Effacer
+                </label>
+            </div>
+
+            <div class="image_upload">
+                Modification :
+                <input type="file" name="image" accept="image/*" id="id_image">
+            </div>
+
+        </p>
+
+        <div class="action_button">
+            <button type="submit">Modifier</button>
+            <a href="{% url 'posts' %}"><button type="button">Retour</button></a>
+        </div>
     </form>
 
-    <form class="action_button" action="{% url 'posts' %}" >
-        <button type="submit">Retour</button>
-    </form>
+
 
 
 {% endblock content %}

@@ -7,10 +7,10 @@
     <form class="post_form" action="" method="post">
         {% csrf_token %}
         {{ context.form.as_p }}
-        <button class="action_button" type="submit">Envoyer</button>
+        <div class="action_button">
+            <button type="submit">Modifier</button>
+            <a href="{% url 'posts' %}"><button type="button">Retour</button></a>
+        </div>
     </form>
 
-    <form action="{% url 'posts' %}" >
-        <button class="action_button" type="submit">Retour</button>
-    </form>
 {% endblock content %}

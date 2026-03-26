@@ -13,10 +13,10 @@
         </div>
         <h3>Critique</h3>
         {{ context.review_form.as_p }}
-        <button class="action_button" type="submit">Envoyer</button>
+        <div class="action_button">
+            <button type="submit">Ajouter</button>
+            <a href="{% url 'feed' %}"><button type="button">Retour</button></a>
+        </div>
     </form>
 
-    <form action="{% url 'feed' %}" >
-        <button class="action_button" type="submit">Retour</button>
-    </form>
 {% endblock content %}

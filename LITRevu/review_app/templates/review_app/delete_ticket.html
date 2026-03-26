@@ -7,11 +7,10 @@
     <form action="" method="post">
         {% csrf_token %}
         <p>Etes-vous sûre de vouloir supprimer le ticket '{{ ticket.title }}' ?</p>
-        <button class="action_button" type="submit">Supprimer</button>
-    </form>
-
-    <form action="{% url 'posts' %}" >
-        <button class="action_button" type="submit">Retour</button>
+        <div class="action_button">
+            <button type="submit">Supprimer</button>
+            <a href="{% url 'posts' %}"><button type="button">Retour</button></a>
+        </div>
     </form>
 
 

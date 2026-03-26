@@ -103,12 +103,12 @@ def edit_ticket(request, ticket_id):
     if ticket.author != request.user:
         return redirect('feed')
     form = forms.TicketForm(request.POST or None, request.FILES or None, instance=ticket)
-    context = {'ticket': ticket, 'form': form}
+
     if request.method == 'POST':
         if form.is_valid():
             form.save()
             return redirect('posts')
-    return render(request, 'review_app/edit_ticket.html', {'context': context})
+    return render(request, 'review_app/edit_ticket.html', {'ticket': ticket, 'form': form})
 
 @login_required
 def delete_ticket(request, ticket_id):
