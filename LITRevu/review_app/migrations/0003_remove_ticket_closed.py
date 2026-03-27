@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('review_app', '0002_rename_date_created_ticket_time_created_and_more'),
     ]

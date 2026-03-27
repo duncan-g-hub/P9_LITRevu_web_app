@@ -1,6 +1,5 @@
 from django import forms
 
-
 from review_app.models import Review, Ticket
 
 
@@ -16,13 +15,12 @@ class TicketForm(forms.ModelForm):
         fields = ("title", "description", "image")
 
 
-
 class ReviewForm(forms.ModelForm):
     headline = forms.CharField(label="Titre")
     rating = forms.ChoiceField(
         choices=[(i, str(i)) for i in range(6)],
         widget=forms.RadioSelect,
-        label = "Note")
+        label="Note")
     body = forms.CharField(label="Commentaire", widget=forms.Textarea)
 
     class Meta:

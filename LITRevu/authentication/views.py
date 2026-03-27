@@ -4,6 +4,7 @@ from django.conf import settings
 
 from . import forms
 
+
 def login_page(request):
     form = forms.LoginForm()
     message = ''
@@ -37,5 +38,3 @@ def signup_page(request):
 def logout_user(request):
     logout(request)
     return redirect(settings.LOGIN_REDIRECT_URL)
-
-

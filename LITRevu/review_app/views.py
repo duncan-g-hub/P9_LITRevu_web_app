@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from . import forms
@@ -6,10 +5,10 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.core.paginator import Paginator
 
-
 from .models import Ticket, Review
 
 User = get_user_model()
+
 
 @login_required
 def feed(request):
@@ -21,7 +20,7 @@ def feed(request):
     followed_users.append(request.user)
 
     tickets = Ticket.objects.filter(author__in=followed_users)
-    reviews = Review.objects.filter(Q(author__in=followed_users) | Q(ticket__author = request.user))
+    reviews = Review.objects.filter(Q(author__in=followed_users) | Q(ticket__author=request.user))
 
     items = []
     for ticket in tickets:
@@ -33,13 +32,12 @@ def feed(request):
 
     context = sorted(items, key=lambda x: x.time_created, reverse=True)
 
-    #gestion du nombre de page
+    # gestion du nombre de page
     paginator = Paginator(context, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'review_app/feed.html', {'page_obj': page_obj})
-
 
 
 @login_required
@@ -48,7 +46,7 @@ def follow_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         # on vérifie que l'utilisateur existe :
-        try :
+        try:
             target_user = User.objects.get(username=username)
         except User.DoesNotExist:
             message = f"L'utilisateur '{username}' n'existe pas."
@@ -84,13 +82,12 @@ def unfollow_user(request):
     return redirect('follow')
 
 
-
 @login_required
 def add_ticket(request):
     form = forms.TicketForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         if form.is_valid():
-            ticket = form.save(commit=False) # objet Ticket créé mais pas sauvegardé
+            ticket = form.save(commit=False)  # objet Ticket créé mais pas sauvegardé
             ticket.author = request.user
             ticket.save()
             return redirect('feed')
@@ -110,6 +107,7 @@ def edit_ticket(request, ticket_id):
             return redirect('posts')
     return render(request, 'review_app/edit_ticket.html', {'ticket': ticket, 'form': form})
 
+
 @login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -121,7 +119,8 @@ def delete_ticket(request, ticket_id):
     return render(request, 'review_app/delete_ticket.html', {'ticket': ticket})
 
 
-# gérer fonction pour add ticket pour eviter de répeter sous les if dans la gestion des reviews (garder une optique pour la mise à jour)
+# gérer fonction pour add ticket pour eviter de répeter sous les if dans la gestion des reviews
+# (garder une optique pour la mise à jour)
 
 @login_required
 def add_review_and_ticket(request):
@@ -168,7 +167,7 @@ def add_review_from_ticket(request, ticket_id):
 
 @login_required
 def edit_review(request, review_id):
-    review = get_object_or_404(Review,id=review_id)
+    review = get_object_or_404(Review, id=review_id)
     if review.author != request.user:
         return redirect('feed')
     form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
@@ -182,15 +181,13 @@ def edit_review(request, review_id):
 
 @login_required
 def delete_review(request, review_id):
-    review = get_object_or_404(Review,id=review_id)
+    review = get_object_or_404(Review, id=review_id)
     if review.author != request.user:
         return redirect('feed')
     if request.method == 'POST':
         review.delete()
         return redirect('posts')
     return render(request, 'review_app/delete_review.html', {'review': review})
-
-
 
 
 @login_required

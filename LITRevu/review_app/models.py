@@ -20,4 +20,3 @@ class Review(models.Model):
     body = models.TextField()
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
-
