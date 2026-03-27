@@ -116,12 +116,14 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# utilisation de mon propre model user
+# Utilisation d'un modèle utilisateur personnalisé
 AUTH_USER_MODEL = 'authentication.User'
 
+# URL vers la page de connexion (utilisée par @login_required)
 LOGIN_URL = "login"
+# URL de redirection après une connexion réussie
 LOGIN_REDIRECT_URL = "login"
 
-# gestion du répértoire des images
+# Répertoire de gestion des fichiers médias (images, etc.)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media/')

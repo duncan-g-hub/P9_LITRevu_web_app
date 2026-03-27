@@ -22,13 +22,17 @@ from django.conf.urls.static import static
 import authentication.views
 import review_app.views
 
+# Définition des patterns d'URL de l'application
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', review_app.views.feed, name='feed'),
+    path("posts/", review_app.views.posts, name='posts'),
+
     path('login/', authentication.views.login_page, name='login'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('logout/', authentication.views.logout_user, name='logout'),
+
     path('follow/', review_app.views.follow_user, name='follow'),
     path('unfollow/', review_app.views.unfollow_user, name='unfollow'),
 
@@ -40,11 +44,9 @@ urlpatterns = [
     path("review/add/<int:ticket_id>/", review_app.views.add_review_from_ticket, name='add-review-from-ticket'),
     path("review/edit/<int:review_id>/", review_app.views.edit_review, name='edit-review'),
     path("review/delete/<int:review_id>/", review_app.views.delete_review, name='delete-review'),
-
-    path("posts/", review_app.views.posts, name='posts'),
 ]
 
-# Si on est dans notre environnement de developpement, les images seront stockées dans le répertoire MEDIA_ROOT
+# En mode développement, sert les fichiers médias depuis MEDIA_ROOT
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
