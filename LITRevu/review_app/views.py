@@ -92,9 +92,7 @@ def follow_user(request):
     return render(request, 'review_app/follow.html', {'context': context})
 
 
-login_required
-
-
+@login_required
 def unfollow_user(request):
     """Traite la suppression d'un abonnement.
 
