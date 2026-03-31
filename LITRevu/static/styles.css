@@ -3,8 +3,10 @@
 
 body {
     font-family: "Lato";
-    margin: 40px;
     background-color: #F7E8D2;
+    margin: auto;
+    padding: 40px;
+    max-width : 1440px;
 }
 
 header {
