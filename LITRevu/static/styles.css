@@ -274,3 +274,8 @@ button:hover{
 .signup_form ul{
     align-self: flex-start;
 }
+
+
+.page_nav {
+    margin: 40px 20px 10px 20px;
+}
