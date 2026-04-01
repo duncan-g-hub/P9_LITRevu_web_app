@@ -3,8 +3,6 @@ from django import forms
 from review_app.models import Review, Ticket
 
 
-
-
 class TicketForm(forms.ModelForm):
     """
     Formulaire de création et modification d'un Ticket.
