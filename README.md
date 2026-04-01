@@ -107,6 +107,12 @@ source env/bin/activate
 ```
 ---
 
+### Gestion de la SecretKey
+
+Copier `.env.example` en `.env` et renseigner la SECRET_KEY
+
+---
+
 ### Installation des dépendances
 
 ```bash
