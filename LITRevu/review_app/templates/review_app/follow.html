@@ -17,9 +17,9 @@
         {% for follow in context.follows %}
             <form action="{% url 'unfollow' %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="username" value="{{ follow.username }}">
+                <input type="hidden" name="username" value="{{ follow.followed_user.username }}">
                 <div class="row">
-                    <p class="username">{{ follow.username }}</p>
+                    <p class="username">{{ follow.followed_user.username }}</p>
                     <button type="submit">Se désabonner</button>
                 </div>
             </form>
@@ -31,7 +31,7 @@
     <h2>Abonnés</h2>
     {% if context.followers %}
         {% for follower in context.followers %}
-            <p class="username">{{ follower.username }}</p>
+            <p class="username">{{ follower.user.username }}</p>
         {% endfor %}
     {% else %}
         <p>Vous n'avez pas encore d'abonnés.</p>

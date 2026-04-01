@@ -5,10 +5,10 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.core.paginator import Paginator
 
-from .models import Ticket, Review
+from .models import Ticket, Review, UserFollows
+
 
 User = get_user_model()
-
 
 @login_required
 def feed(request):
@@ -23,11 +23,11 @@ def feed(request):
             HttpResponse: Page de flux via le template feed.html,
             avec les tickets et critiques paginés.
     """
-    follows = request.user.follows.all()
+    follows = UserFollows.objects.filter(user=request.user)
 
     followed_users = []
     for follow in follows:
-        followed_users.append(follow)
+        followed_users.append(follow.followed_user)
     followed_users.append(request.user)
 
     tickets = Ticket.objects.filter(author__in=followed_users)
@@ -41,10 +41,10 @@ def feed(request):
         review.type = 'REVIEW'
         items.append(review)
 
-    context = sorted(items, key=lambda x: x.time_created, reverse=True)
+    items_sorted = sorted(items, key=lambda x: x.time_created, reverse=True)
 
     # gestion du nombre de page
-    paginator = Paginator(context, 5)
+    paginator = Paginator(items_sorted, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -79,15 +79,15 @@ def follow_user(request):
             if target_user == request.user:
                 message = "Vous ne pouvez pas vous suivre vous-même."
             # Vérifier si déjà suivi
-            elif request.user.follows.filter(id=target_user.id).exists():
+            elif UserFollows.objects.filter(user=request.user, followed_user=target_user).exists():
                 message = f"Vous suivez déjà {username}."
             else:
-                request.user.follows.add(target_user)
+                UserFollows.objects.create(user=request.user, followed_user=target_user)
                 message = f"{username} a été ajouté à vos abonnements."
     context = {
         'message': message,
-        'follows': request.user.follows.all(),  # mes abonnements
-        'followers': request.user.followers.all(),  # mes abonnés
+        'follows': UserFollows.objects.filter(user=request.user),  # mes abonnements
+        'followers': UserFollows.objects.filter(followed_user=request.user),  # mes abonnés
     }
     return render(request, 'review_app/follow.html', {'context': context})
 
@@ -113,9 +113,8 @@ def unfollow_user(request):
         except User.DoesNotExist:
             pass
         else:
-            # arreter de suivre en controllant si il y a bien un suivi
-            if request.user.follows.filter(id=target_user.id).exists():
-                request.user.follows.remove(target_user)
+            # arreter de suivre l'utilisateur
+            UserFollows.objects.filter(user=request.user, followed_user=target_user).delete()
     return redirect('follow')
 
 
@@ -349,9 +348,9 @@ def posts(request):
         review.type = 'REVIEW'
         items.append(review)
 
-    context = sorted(items, key=lambda x: x.time_created, reverse=True)
+    items_sorted = sorted(items, key=lambda x: x.time_created, reverse=True)
 
-    paginator = Paginator(context, 5)
+    paginator = Paginator(items_sorted, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

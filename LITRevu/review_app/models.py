@@ -46,3 +46,21 @@ class Review(models.Model):
     body = models.TextField()
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
+
+
+class UserFollows(models.Model):
+    """
+    Modèle représentant la relation d'abonnement entre deux utilisateurs.
+
+    Attributes:
+        user (ForeignKey): L'utilisateur qui suit.
+        followed_user (ForeignKey): L'utilisateur qui est suivi.
+
+    Meta:
+        unique_together: Empêche qu'un utilisateur suive deux fois le même utilisateur.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
+    followed_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
+
+    class Meta:
+        unique_together = ('user', 'followed_user')
