@@ -54,6 +54,7 @@ P9_LITRevu_web_app/
     README.md                               # Documentation
     .gitignore                              # Liste des dossiers et fichiers à ignorer pour le repository
     requirements.txt                        # Liste des dépendances
+    .env                                    # Gestion clé secrète via variable d'environnement (non-inclu dans le repository)
     
     LITRevu/                                # Répertoire principal projet Django
         authentication/                     # Application d'authentification - inscription et connexion 
